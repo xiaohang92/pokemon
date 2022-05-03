@@ -5,8 +5,9 @@ import Axios from "axios";
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
-  { field: 'id', headerName: 'Number', width: 70 },
-  { field: 'name', headerName: 'Pokemon', width: 130 },
+  { field: 'id', headerName: 'Number', flex: 1 },
+  { field: 'name', headerName: 'Pokemon', flex: 2 },
+  { field: 'img', headerName: 'Image', flex: 2, renderCell: (params) => <img src={params.value} alt="pokemon" /> }
 ];
 
 function App() {
@@ -27,9 +28,9 @@ function App() {
   })
   const [pokemonList, setPokemonList] = useState({
     name: "",
-    id: ""
+    id: "",
+    img: ""
   })
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +42,7 @@ function App() {
         {
           name: data.name,
           id: index + 1,
+          img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`
         }
       )));
     };
@@ -51,13 +53,15 @@ function App() {
 
 
   const searchPokemon = () => {
-    console.log(pokemonName)
+
     Axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`)
       .then((response) => {
+        console.log(response.data)
         setPokemon({
+
           name: pokemonName,
           species: response.data.species.name,
-          img: response.data.sprites.front_default,
+          img: response.data.sprites.other.home.front_default,
           hp: response.data.stats[0].base_stat,
           attack: response.data.stats[1].base_stat,
           defense: response.data.stats[2].base_stat,
@@ -80,6 +84,7 @@ function App() {
         <Box >
           <Card sx={{ minWidth: 400 }}>
             <CardMedia
+              sx={{ maxHeight: 400 }}
               component="img"
               alt="pokemon img"
               height="100%"
@@ -138,7 +143,7 @@ function App() {
           disablePortal
           id="combo-box-demo"
           options={pokemonList}
-          sx={{ width: 300 }}
+          sx={{ width: 350 }}
           getOptionLabel={(option) => option.name || ""}
           onChange={(event, newValue) => {
             setPokemonName(newValue.name);
@@ -147,7 +152,7 @@ function App() {
         />
         {/* <Input placeholder="Pokemon" onChange={(event) => { setPokemonName(event.target.value) }} /> */}
         <Button onClick={searchPokemon}>Search Pokemon</Button>
-        <Box sx={{ height: 650, width: '100%' }}>
+        <Box sx={{ height: 631, width: '100%' }}>
           <DataGrid
             rows={pokemonList}
             getRowId={row => row.id}
