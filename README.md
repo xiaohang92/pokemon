@@ -3,7 +3,7 @@
 ## Description
 
 An Search Pokemon website built with React Material UI(MUI) and using axios to call API from https://pokeapi.co/.<br /> 
-There is Autocomplete components and DataGrid components for user convinents to search their favourite pokemon.<br /> 
+There is Autocomplete components and DataGrid components for user convenient to search their favorite pokemon.<br /> 
 The autocomplete is a normal text input enhanced by a panel of suggested options.<br /> 
 The React DataGrid is a feature-rich control for displaying data in a tabular format.
 
